@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Estacionamento</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1><span class="fas fa-car"></span> Monitor de Estacionamento</h1>
+        <p>Visão geral do pátio (via sensores)</p>
+    </header>
+
+    <main>
+        <div class="controles-patio">
+            <h2>Mapa de Vagas</h2>
+            <button id="btn-iniciar-simulador" class="btn-simulador">
+                <i class="fas fa-play"></i> Iniciar Simulação de Sensores
+            </button>
+        </div>
+
+        <div id="loading-message">Carregando vagas...</div>
+        <div id="mapa-container">
+            </div>
+
+        <div class="legenda">
+            <span class="cor-legenda livre"></span> Livre
+            <span class="cor-legenda ocupada"></span> Ocupada
+            <span class="cor-legenda pcd"></span> PCD (Deficiente)
+            <span class="cor-legenda moto"></span> Moto
+            <span class="cor-legenda manutencao"></span> Manutenção
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Monitor de Estacionamento. Todos os direitos reservados.</p>
+    </footer>
+
+    <div id="toast-container"></div>
+
+    <script type="module" src="js/main.js" defer></script>
+</body>
+</html>

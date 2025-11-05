@@ -1,0 +1,421 @@
+/* ------------------------------------------- */
+/* RESET BÁSICO E ESTILOS GLOBAIS
+/* ------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #3f51b5; 
+    --primary-dark: #303f9f;
+    --accent-color: #ff9800; 
+    --text-dark: #212121;
+    --text-light: #757575;
+    --bg-light: #f5f5f5;
+    --bg-dark: #e0e0e0;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.2);
+    --border-color: #e0e0e0;
+    --success-color: #4CAF50;
+    --error-color: #F44336;
+    --warning-color: #FFC107;
+    --info-color: #2196F3;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 10px var(--shadow-medium);
+    position: relative;
+    z-index: 10;
+}
+
+header h1 {
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+header h1 span {
+    font-size: 1.8rem;
+}
+
+header p {
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+main {
+    max-width: 1200px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+    flex-grow: 1; 
+}
+
+h2 {
+    color: var(--primary-dark);
+    font-weight: 600;
+    font-size: 1.8rem;
+}
+
+/* ------------------------------------------- */
+/* MAPA DE VAGAS (GRID RESPONSIVO)
+/* ------------------------------------------- */
+#mapa-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1.2rem;
+}
+
+#loading-message {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    text-align: center;
+    padding: 3rem;
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
+}
+
+/* ------------------------------------------- */
+/* ESTILO DAS VAGAS INDIVIDUAIS
+/* ------------------------------------------- */
+.vaga {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.2rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+    /* cursor: pointer; REMOVIDO - NÃO É MAIS CLICÁVEL */
+    cursor: default;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 8px var(--shadow-light);
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* EFEITO HOVER REMOVIDO */
+.vaga:hover {
+    transform: none;
+    box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+/* SPAN DA PLACA REMOVIDO */
+
+/* Indicador de Tipo */
+.vaga::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 100%;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+}
+
+/* --- Status da Vaga --- */
+.vaga.livre {
+    background-color: #e8f5e9;
+    border-color: #81c784;
+    color: #388e3c;
+}
+
+.vaga.ocupada {
+    background-color: #ffebee;
+    border-color: #ef9a9a;
+    color: #d32f2f;
+}
+
+.vaga.manutencao {
+    background-color: #fff8e1;
+    border-color: #ffe082;
+    color: #fbc02d;
+    cursor: not-allowed;
+    opacity: 0.7;
+    filter: grayscale(30%);
+}
+
+/* --- Tipo da Vaga (Indicador lateral e cor principal) --- */
+.vaga.moto {
+    background-color: #e3f2fd;
+    border-color: #90caf9;
+    color: #1976d2;
+}
+.vaga.moto::before {
+    background-color: #2196F3;
+}
+
+.vaga.pcd {
+    background-color: #e8eaf6;
+    border-color: #c5cae9;
+    color: #3949ab;
+}
+.vaga.pcd::before {
+    background-color: #3F51B5;
+}
+
+.vaga.moto.ocupada {
+    background-color: #f3e5f5;
+    border-color: #ce93d8;
+    color: #7b1fa2;
+}
+.vaga.moto.ocupada::before {
+    background-color: #9C27B0;
+}
+
+.vaga.pcd.ocupada {
+    background-color: #d1c4e9;
+    border-color: #9575cd;
+    color: #5e35b1;
+}
+.vaga.pcd.ocupada::before {
+    background-color: #673AB7;
+}
+
+
+/* ------------------------------------------- */
+/* LEGENDA
+/* ------------------------------------------- */
+.legenda {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--border-color);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-light);
+}
+
+.legenda span {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.cor-legenda {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.cor-legenda.livre { background-color: #e8f5e9; border-color: #81c784; }
+.cor-legenda.ocupada { background-color: #ffebee; border-color: #ef9a9a; }
+.cor-legenda.moto { background-color: #e3f2fd; border-color: #90caf9; }
+.cor-legenda.pcd { background-color: #e8eaf6; border-color: #c5cae9; }
+.cor-legenda.manutencao { background-color: #fff8e1; border-color: #ffe082; }
+
+
+/* ------------------------------------------- */
+/* SEÇÃO DO MODAL INTEIRA REMOVIDA
+/* ------------------------------------------- */
+
+
+/* ------------------------------------------- */
+/* FEEDBACK E NOTIFICAÇÕES (TOAST-LIKE)
+/* ------------------------------------------- */
+#toast-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    pointer-events: none;
+}
+
+.toast {
+    background-color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    color: var(--text-dark);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    border-left: 5px solid;
+    animation: toast-in 0.4s ease-out forwards, toast-out 0.4s ease-in forwards var(--toast-delay, 3s);
+    min-width: 250px;
+    max-width: 350px;
+    pointer-events: all;
+}
+
+.toast-success { border-color: var(--success-color); }
+.toast-error { border-color: var(--error-color); }
+.toast-info { border-color: var(--info-color); }
+
+.toast-icon {
+    font-size: 1.5rem;
+}
+.toast-icon.success { color: var(--success-color); }
+.toast-icon.error { color: var(--error-color); }
+.toast-icon.info { color: var(--info-color); }
+
+@keyframes toast-in {
+    from { opacity: 0; transform: translateX(100%); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes toast-out {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(100%); }
+}
+
+
+/* ------------------------------------------- */
+/* FOOTER
+/* ------------------------------------------- */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 3rem;
+    background-color: #f0f0f0;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border-color);
+}
+
+
+/* ------------------------------------------- */
+/* ESTILOS DO BOTÃO DE SIMULAÇÃO
+/* ------------------------------------------- */
+.controles-patio {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.controles-patio h2 {
+    margin-bottom: 0;
+}
+
+.btn-simulador {
+    background-color: var(--accent-color);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.btn-simulador:hover {
+    background-color: #ffb74d;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.btn-simulador:disabled {
+    background-color: var(--text-light);
+    opacity: 0.7;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.btn-simulador.ativo {
+    background-color: var(--success-color);
+}
+
+.btn-simulador.ativo:hover {
+    background-color: #66bb6a;
+}
+
+/* ------------------------------------------- */
+/* RESPONSIVIDADE (Simplificada)
+/* ------------------------------------------- */
+@media (max-width: 768px) {
+    header { padding: 1.5rem 1rem; }
+    header h1 { font-size: 1.6rem; }
+    header h1 span { font-size: 1.5rem; }
+    main { padding: 0 1rem; margin-top: 2rem; }
+    h2 { font-size: 1.6rem; }
+    
+    #mapa-container {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 0.8rem;
+    }
+    .vaga {
+        min-height: 100px;
+        font-size: 1.05rem;
+        padding: 0.8rem;
+    }
+    #toast-container { bottom: 1rem; right: 1rem; }
+    .toast { min-width: unset; width: 90%; margin-left: auto; margin-right: auto; }
+}
+
+@media (max-width: 480px) {
+    header h1 { font-size: 1.4rem; }
+    header h1 span { font-size: 1.3rem; }
+    .legenda { flex-direction: column; gap: 0.8rem; font-size: 0.85rem; }
+}
+
+.vaga-status {
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 0.5rem; /* Espaço entre o ID e o status */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.05); /* Um fundo leve */
+}
+
+/* Define a cor do texto de status com base na classe da vaga */
+.vaga.livre .vaga-status {
+    color: var(--success-color); /* Texto verde */
+    background-color: rgba(76, 175, 80, 0.1); /* Fundo verde leve */
+}
+
+.vaga.ocupada .vaga-status {
+    color: var(--error-color); /* Texto vermelho */
+    background-color: rgba(244, 67, 54, 0.1); /* Fundo vermelho leve */
+}
+
+.vaga.manutencao .vaga-status {
+    color: var(--warning-color); /* Texto amarelo */
+    background-color: rgba(255, 193, 7, 0.1); /* Fundo amarelo leve */
+}
