@@ -12,18 +12,28 @@ export function renderizarMapa(vagas) {
     mapaContainer.innerHTML = '';
 
     if (!vagas || vagas.length === 0) {
-        mapaContainer.innerHTML = '<p>Nenhuma vaga encontrada para exibição.</p>';
+        mapaContainer.innerHTML = '<p style="text-align: center; padding: 2rem; color: var(--text-light);">Nenhuma vaga encontrada para exibição.</p>';
         return;
     }
 
     vagas.forEach(vaga => {
+        // Garante que a vaga tem os campos necessários
+        if (!vaga.identificador) {
+            console.warn('Vaga sem identificador:', vaga);
+            return;
+        }
+
         const vagaDiv = document.createElement('div');
         vagaDiv.className = 'vaga';
-        vagaDiv.classList.add(vaga.status, vaga.tipo);
         
-        // --- INÍCIO DA MODIFICAÇÃO ---
+        // Determina o status (prioridade: ocupada > manutencao > livre)
+        const status = vaga.status || (vaga.id_registro ? 'ocupada' : 'livre');
+        const tipo = vaga.tipo || 'normal';
+        
+        vagaDiv.classList.add(status, tipo);
+        
         let statusTexto = '';
-        switch(vaga.status) {
+        switch(status) {
             case 'livre':
                 statusTexto = 'Liberada';
                 break;
@@ -33,16 +43,16 @@ export function renderizarMapa(vagas) {
             case 'manutencao':
                 statusTexto = 'Manutenção';
                 break;
+            default:
+                statusTexto = 'Desconhecido';
         }
 
-        // Conteúdo modificado para incluir o status
         vagaDiv.innerHTML = `
             <strong>${vaga.identificador}</strong>
             <span class="vaga-status">${statusTexto}</span>
         `;
-        // --- FIM DA MODIFICAÇÃO ---
 
-        if (vaga.status === 'manutencao') {
+        if (status === 'manutencao') {
             vagaDiv.style.cursor = 'not-allowed';
         }
         mapaContainer.appendChild(vagaDiv);

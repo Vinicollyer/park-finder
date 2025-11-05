@@ -23,12 +23,21 @@ async function carregarVagas() {
     }
 
     try {
-        estadoAtualVagas = await api.fetchVagas();
-        ui.renderizarMapa(estadoAtualVagas); // Callback removido
+        const vagas = await api.fetchVagas();
+        console.log('Vagas carregadas:', vagas.length, vagas);
+        
+        if (!vagas || vagas.length === 0) {
+            console.warn('Nenhuma vaga retornada da API');
+            ui.showToast('Nenhuma vaga encontrada no sistema.', 'info');
+        }
+        
+        estadoAtualVagas = vagas;
+        ui.renderizarMapa(estadoAtualVagas);
     } catch (error) {
         console.error('Falha ao carregar vagas:', error);
         estadoAtualVagas = [];
-        ui.showToast('Erro ao carregar vagas.', 'error');
+        const errorMessage = error.message || 'Erro ao carregar vagas. Verifique se o servidor está rodando.';
+        ui.showToast(errorMessage, 'error');
     } finally {
         ui.setLoading(false);
     }

@@ -6,11 +6,32 @@ const API_URL_REGISTROS = 'api/registros.php';
  * Busca a lista completa de vagas na API.
  */
 export async function fetchVagas() {
-    const response = await fetch(API_URL_VAGAS);
-    if (!response.ok) {
-        throw new Error(`Erro na API ao buscar vagas: ${response.statusText}`);
+    try {
+        const response = await fetch(API_URL_VAGAS);
+        
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.message || `Erro na API: ${response.status} ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        
+        // Verifica se a resposta é um array
+        if (!Array.isArray(data)) {
+            // Se a resposta é um objeto de erro
+            if (data.status === 'error') {
+                throw new Error(data.message || 'Erro desconhecido da API');
+            }
+            // Se não é array nem erro, retorna array vazio
+            console.warn('API retornou dados em formato inesperado:', data);
+            return [];
+        }
+        
+        return data;
+    } catch (error) {
+        console.error('Erro ao buscar vagas:', error);
+        throw error;
     }
-    return response.json();
 }
 
 /**
